@@ -18,10 +18,13 @@ namespace FitsAnalyzer
             fits = new Fits(fileName, FileAccess.Read);
         }
 
-        public void ReadHeader(int index, out List<string[]> table)
+        public bool ReadHeader(int index, out List<string[]> table)
         {
-            table = new List<string[]> { };
             hdus = fits.Read();
+
+            if (hdus == null) { table = null; return false; }
+
+            table = new List<string[]> { };
             var hdr = hdus[index].Header;
 
             for (int j = 0; j < hdr.NumberOfCards; j++)
@@ -30,6 +33,7 @@ namespace FitsAnalyzer
                 var sa = new string[3] { hc.Key, hc.Value, hc.Comment };
                 table.Add(sa);
             }
+            return (table.Count != 0);
         }
 
         public void ReadData(int index, out Array[] data)

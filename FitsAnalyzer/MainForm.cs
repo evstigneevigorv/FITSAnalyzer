@@ -12,8 +12,9 @@ namespace FitsAnalyzer
 {
     public partial class MainForm : Form
     {
-        private string filePath = string.Empty;
         private FitsWrapper fits = new FitsWrapper();
+        private string filePath = string.Empty;
+        private int crtHDUIndex = 0;
 
         public MainForm()
         {
@@ -34,26 +35,55 @@ namespace FitsAnalyzer
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.Multiselect = false;
                 openFileDialog.RestoreDirectory = true;
+                openFileDialog.CheckFileExists = true;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (openFileDialog.ShowDialog() != DialogResult.OK)
                 {
-                    filePath = openFileDialog.FileName;
-
-                    fits.OpenFile(filePath);
-                    var table = new List<string[]> { };
-                    fits.ReadHeader(0, out table);
-                    HeaderShow(table);
-
-                    Array[] data;
-                    fits.ReadData(0, out data);
-                    DataShow(data);
+                    MessageBox.Show(
+                        $"Неправильно выбран файл \"{filePath}\"",
+                        "Ошибка открытия файла",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
                 }
-            }
-        }
 
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-            
+                filePath = openFileDialog.FileName;
+                fits.OpenFile(filePath);
+
+                var table = new List<string[]> { };
+                try
+                {
+                    fits.ReadHeader(crtHDUIndex, out table);
+                }
+                catch (Exception excp)
+                {
+                    MessageBox.Show(
+                        $"Не удалось открыть заголовок №{crtHDUIndex} файла \"{filePath}\":\n" +
+                        $"{excp.Message}",
+                        "Ошибка открытия файла",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                HeaderUpdate(table);
+
+                var data = new Array[] { };
+                try
+                {
+                    fits.ReadData(crtHDUIndex, out data);
+                }
+                catch (Exception excp)
+                {
+                    MessageBox.Show(
+                        $"Не удалось открыть данные для HDU№{crtHDUIndex} файла \"{filePath}\":\n" +
+                        $"{excp.Message}",
+                        "Ошибка открытия файла",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                DataUpdate(data);
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,13 +91,13 @@ namespace FitsAnalyzer
             Application.Exit();
         }
 
-        private void HeaderShow(List<string[]> table)
+        private void HeaderUpdate(List<string[]> table)
         {
             foreach (string[] sa in table)
                 hduDataGridView.Rows.Add(sa);
         }
 
-        private void DataShow(Array[] data)
+        private void DataUpdate(Array[] data)
         {
             int width = data[0].GetLength(0);
             int height = data.GetLength(0);

@@ -63,12 +63,12 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripProgressStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dataPictureBox = new System.Windows.Forms.PictureBox();
             this.hduDataGridView = new System.Windows.Forms.DataGridView();
             this.KeyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
-            this.dataPictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -76,8 +76,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hduDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hduDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -262,7 +262,7 @@
             // 
             this.toolStripNumberComboBox.Enabled = false;
             this.toolStripNumberComboBox.Name = "toolStripNumberComboBox";
-            this.toolStripNumberComboBox.Size = new System.Drawing.Size(121, 25);
+            this.toolStripNumberComboBox.Size = new System.Drawing.Size(80, 25);
             this.toolStripNumberComboBox.ToolTipText = "Текущий снимок";
             // 
             // toolStripNextButton
@@ -340,7 +340,7 @@
             this.toolStripStatusLabel,
             this.toolStripProgressBar,
             this.toolStripProgressStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 2;
@@ -383,9 +383,20 @@
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Panel2.Controls.Add(this.hduDataGridView);
-            this.splitContainer1.Size = new System.Drawing.Size(800, 379);
+            this.splitContainer1.Size = new System.Drawing.Size(800, 490);
             this.splitContainer1.SplitterDistance = 590;
             this.splitContainer1.TabIndex = 3;
+            // 
+            // dataPictureBox
+            // 
+            this.dataPictureBox.BackColor = System.Drawing.Color.Black;
+            this.dataPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.dataPictureBox.Name = "dataPictureBox";
+            this.dataPictureBox.Size = new System.Drawing.Size(590, 490);
+            this.dataPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.dataPictureBox.TabIndex = 1;
+            this.dataPictureBox.TabStop = false;
             // 
             // hduDataGridView
             // 
@@ -403,7 +414,7 @@
             this.hduDataGridView.Name = "hduDataGridView";
             this.hduDataGridView.ReadOnly = true;
             this.hduDataGridView.RowHeadersVisible = false;
-            this.hduDataGridView.Size = new System.Drawing.Size(206, 379);
+            this.hduDataGridView.Size = new System.Drawing.Size(206, 490);
             this.hduDataGridView.TabIndex = 0;
             // 
             // KeyColumn
@@ -424,27 +435,17 @@
             this.CommentColumn.Name = "CommentColumn";
             this.CommentColumn.ReadOnly = true;
             // 
-            // dataPictureBox
-            // 
-            this.dataPictureBox.BackColor = System.Drawing.Color.Black;
-            this.dataPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.dataPictureBox.Name = "dataPictureBox";
-            this.dataPictureBox.Size = new System.Drawing.Size(590, 379);
-            this.dataPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.dataPictureBox.TabIndex = 1;
-            this.dataPictureBox.TabStop = false;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 561);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "MainForm";
             this.Text = "FitsAnalyzer";
             this.menuStrip1.ResumeLayout(false);
@@ -457,8 +458,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.hduDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hduDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
