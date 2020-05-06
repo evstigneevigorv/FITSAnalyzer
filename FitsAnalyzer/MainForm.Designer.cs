@@ -40,13 +40,16 @@
             this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.fitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.previousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.referenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripOpenFileButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripExportButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSaveButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripPreviousButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripNumberComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -65,10 +68,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataPictureBox = new System.Windows.Forms.PictureBox();
             this.hduDataGridView = new System.Windows.Forms.DataGridView();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.KeyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -140,7 +143,10 @@
             this.zoomInToolStripMenuItem,
             this.zoomOutToolStripMenuItem,
             this.toolStripSeparator4,
-            this.fitToolStripMenuItem});
+            this.fitToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.previousToolStripMenuItem,
+            this.nextToolStripMenuItem});
             this.viewToolStripMenuItem.Enabled = false;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
@@ -150,27 +156,54 @@
             // 
             this.zoomInToolStripMenuItem.Enabled = false;
             this.zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
-            this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.zoomInToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+<+>";
+            this.zoomInToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
+            this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.zoomInToolStripMenuItem.Text = "Приблизить";
             // 
             // zoomOutToolStripMenuItem
             // 
             this.zoomOutToolStripMenuItem.Enabled = false;
             this.zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
-            this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.zoomOutToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+<->";
+            this.zoomOutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.OemMinus)));
+            this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.zoomOutToolStripMenuItem.Text = "Отдалить";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(246, 6);
             // 
             // fitToolStripMenuItem
             // 
             this.fitToolStripMenuItem.Enabled = false;
             this.fitToolStripMenuItem.Name = "fitToolStripMenuItem";
-            this.fitToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.fitToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.fitToolStripMenuItem.Text = "Вписать в окно";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(246, 6);
+            // 
+            // previousToolStripMenuItem
+            // 
+            this.previousToolStripMenuItem.Enabled = false;
+            this.previousToolStripMenuItem.Name = "previousToolStripMenuItem";
+            this.previousToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
+            this.previousToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.previousToolStripMenuItem.Text = "Предыдущий снимок";
+            this.previousToolStripMenuItem.Click += new System.EventHandler(this.previousToolStripMenuItem_Click);
+            // 
+            // nextToolStripMenuItem
+            // 
+            this.nextToolStripMenuItem.Enabled = false;
+            this.nextToolStripMenuItem.Name = "nextToolStripMenuItem";
+            this.nextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
+            this.nextToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.nextToolStripMenuItem.Text = "Следующий снимок";
+            this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -181,29 +214,29 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.справкаToolStripMenuItem,
-            this.оПрограммеToolStripMenuItem});
+            this.referenceToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.helpToolStripMenuItem.Text = "Помощь";
             // 
-            // справкаToolStripMenuItem
+            // referenceToolStripMenuItem
             // 
-            this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.справкаToolStripMenuItem.Text = "Справка";
+            this.referenceToolStripMenuItem.Name = "referenceToolStripMenuItem";
+            this.referenceToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.referenceToolStripMenuItem.Text = "Справка";
             // 
-            // оПрограммеToolStripMenuItem
+            // aboutToolStripMenuItem
             // 
-            this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.оПрограммеToolStripMenuItem.Text = "О программе";
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.aboutToolStripMenuItem.Text = "О программе";
             // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripOpenFileButton,
-            this.toolStripExportButton,
+            this.toolStripSaveButton,
             this.toolStripSeparator1,
             this.toolStripPreviousButton,
             this.toolStripNumberComboBox,
@@ -232,15 +265,15 @@
             this.toolStripOpenFileButton.ToolTipText = "Открыть новый FITS-файл";
             this.toolStripOpenFileButton.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // toolStripExportButton
+            // toolStripSaveButton
             // 
-            this.toolStripExportButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripExportButton.Enabled = false;
-            this.toolStripExportButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripExportButton.Image")));
-            this.toolStripExportButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripExportButton.Name = "toolStripExportButton";
-            this.toolStripExportButton.Size = new System.Drawing.Size(23, 22);
-            this.toolStripExportButton.Text = "Сохранить снимок";
+            this.toolStripSaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSaveButton.Enabled = false;
+            this.toolStripSaveButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSaveButton.Image")));
+            this.toolStripSaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSaveButton.Name = "toolStripSaveButton";
+            this.toolStripSaveButton.Size = new System.Drawing.Size(23, 22);
+            this.toolStripSaveButton.Text = "Сохранить снимок";
             // 
             // toolStripSeparator1
             // 
@@ -257,6 +290,7 @@
             this.toolStripPreviousButton.Size = new System.Drawing.Size(23, 22);
             this.toolStripPreviousButton.Text = "Предыдущий снимок";
             this.toolStripPreviousButton.ToolTipText = "Предыдущий снимок";
+            this.toolStripPreviousButton.Click += new System.EventHandler(this.previousToolStripMenuItem_Click);
             // 
             // toolStripNumberComboBox
             // 
@@ -275,6 +309,7 @@
             this.toolStripNextButton.Size = new System.Drawing.Size(23, 22);
             this.toolStripNextButton.Text = "Следующий снимок";
             this.toolStripNextButton.ToolTipText = "Следующий снимок";
+            this.toolStripNextButton.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -419,21 +454,27 @@
             // 
             // KeyColumn
             // 
+            this.KeyColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.KeyColumn.HeaderText = "Ключ";
             this.KeyColumn.Name = "KeyColumn";
             this.KeyColumn.ReadOnly = true;
+            this.KeyColumn.Width = 58;
             // 
             // ValueColumn
             // 
+            this.ValueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ValueColumn.HeaderText = "Значение";
             this.ValueColumn.Name = "ValueColumn";
             this.ValueColumn.ReadOnly = true;
+            this.ValueColumn.Width = 80;
             // 
             // CommentColumn
             // 
+            this.CommentColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.CommentColumn.HeaderText = "Комментарий";
             this.CommentColumn.Name = "CommentColumn";
             this.CommentColumn.ReadOnly = true;
+            this.CommentColumn.Width = 102;
             // 
             // MainForm
             // 
@@ -447,6 +488,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FitsAnalyzer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -478,11 +520,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.HelpProvider helpProvider1;
         private System.Windows.Forms.DataGridView hduDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn KeyColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CommentColumn;
         private System.Windows.Forms.ToolStripButton toolStripOpenFileButton;
-        private System.Windows.Forms.ToolStripButton toolStripExportButton;
+        private System.Windows.Forms.ToolStripButton toolStripSaveButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripPreviousButton;
         private System.Windows.Forms.ToolStripComboBox toolStripNumberComboBox;
@@ -491,8 +530,8 @@
         private System.Windows.Forms.ToolStripButton toolStripSettingsButton;
         private System.Windows.Forms.ToolStripButton toolStripHelpButton;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem referenceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripZoomInButton;
         private System.Windows.Forms.ToolStripButton toolStripFitButton;
         private System.Windows.Forms.ToolStripButton toolStripZoomOutButton;
@@ -507,6 +546,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripProgressStatusLabel;
         private System.Windows.Forms.PictureBox dataPictureBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem previousToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nextToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn KeyColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CommentColumn;
     }
 }
 
