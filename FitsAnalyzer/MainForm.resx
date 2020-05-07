@@ -180,24 +180,12 @@
         6bruKVQ6GILRD/JfxN3fQMwjmnAcONQAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="toolStripSettingsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="toolStripCalcButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAElSURBVDhPrZPLbYVADEXZpYI0kFIoALGmCERB7EAUQAdA
-        Ca8MViA+UhY4cyZ4ZN5HT4piyZrBc21fX2Yia8dxfLDu+/61bZtYJ2YxDzbP86cD3tZ1Ld2a9X0vcRx7
-        H4aBItl5dgN7pv2aJtd1LW3byjRN303ThALsiXEG5lIESpqsCUVRSJqm4TtJEsnzPHxrkTAO1KiugHcO
-        lhyffAqWQdF2wemM2xjswJLjhXUb6bpOqqq6gMuypIt39hpnNDRB2GVZxBfQQ3UKkcgZzv6eCT6O4z8V
-        gA60rPKvRqAQ4zK2H8GKiEAKVPB9Z4S+iIi5Ln//jc8uEl1sZ0az7B4u0rOrzJw2gRhnmvzyPUDNrRki
-        aYG3j0lNKZ3Cht+Iq2CBtrco+gF7tFjrOp7TbQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="toolStripHelpButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACRSURBVDhPzZGxCcAgEEUdISMFe2fLAvaWKRwgtdNYqaXx
-        h4uIXIiBFD74cPjvvnKK+fDeLzHGrcgXZRLqDR61PRNCOKy1WSmVpZSXUOMMHrXx0O11sBc8auVJKa1t
-        gHMuG2O+B/QaDmgpzbvWug5/CuB2gbDXJd70u0CN4aFvBNwuyBqDewFZY/wW0Iqs6RDiBEMl9XB1Lt2Y
-        AAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABoSURBVDhPY0AGX758Mfj27dt7IP6PB78HqYNqQQUgyba2
+        tv9OTk44MUgepA6qBRWAbAAp+vD+I04Mkgepg2pBBcgGwGxExvQ1ABcm2gB89KgLyHQByQbgo8lyAQwT
+        MoCyzER6dmZgAABuvRzFLDF75wAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -212,7 +200,19 @@
   <metadata name="CommentColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="KeyColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="CommentColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>353, 17</value>
+  </metadata>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>480, 17</value>
   </metadata>
 </root>

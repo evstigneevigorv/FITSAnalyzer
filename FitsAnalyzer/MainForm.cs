@@ -32,13 +32,16 @@ namespace FitsAnalyzer
 
     public partial class MainForm : Form
     {
+        private List<ToolStripItem> singleSwitchableControls;
+        private List<ToolStripItem> multipleSwitchableControls;
+        
         private FitsWrapper fits = new FitsWrapper();
         private string[] files;
         private List<UnitMap> unitsList;
         private int crtUnitIndex = 0;
         private int hduNumber = 0;
-        private List<ToolStripItem> singleSwitchableControls;
-        private List<ToolStripItem> multipleSwitchableControls;
+        private double scale = 1.0;
+        private const double scaleStep = 1.2;
 
         public MainForm()
         {
@@ -52,15 +55,18 @@ namespace FitsAnalyzer
             };
             multipleSwitchableControls = new List<ToolStripItem>
             {
-                previousToolStripMenuItem, nextToolStripMenuItem,
-                toolStripPreviousButton, toolStripNumberComboBox, toolStripNextButton
+                previousToolStripMenuItem, nextToolStripMenuItem, actionToolStripMenuItem, calcToolStripMenuItem,
+                toolStripPreviousButton, toolStripNumberComboBox, toolStripNextButton, toolStripCalcButton
             };
+            this.Text = $"{Application.ProductName} v.{Assembly.GetExecutingAssembly().GetName().Version}";
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
+                toolStripStatusLabel.Text = "Выбор файла";
+
                 // Создание рабочей директории
 
                 string crtDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -100,12 +106,13 @@ namespace FitsAnalyzer
                 var openResult = openFileDialog.ShowDialog();
                 if (openResult != DialogResult.OK)
                 {
-                    if (openResult == DialogResult.Cancel) return;
-                    MessageBox.Show(
-                        $"Неправильно выбран(ы) файл(ы) \"{files}\"",
-                        "Ошибка открытия файла(ов)",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    toolStripStatusLabel.Text = "Выберите файл для анализа";
+                    if (openResult != DialogResult.Cancel)
+                        MessageBox.Show(
+                            $"Неправильно выбран(ы) файл(ы) \"{files}\"",
+                            "Ошибка открытия файла(ов)",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
                     return;
                 }
 
@@ -114,6 +121,14 @@ namespace FitsAnalyzer
                 hduNumber = 0;
                 int i = 0;
 
+                // Открытие файлов
+
+                toolStripStatusLabel.Text = "Открытие файла(ов)";
+                toolStripProgressBar.Value = 0;
+                toolStripProgressBar.Visible = true;
+                toolStripProgressLabel.Text = "0 %";
+                toolStripProgressLabel.Visible = true;
+                
                 foreach (string file in openFileDialog.FileNames)
                 {
                     string workFile = crtDir + "\\fits\\" + Path.GetFileName(file);
@@ -123,7 +138,7 @@ namespace FitsAnalyzer
                         File.Copy(file, workFile, true);
                         using (Process funpackProcess = new Process())
                         {
-                            funpackProcess.StartInfo.UseShellExecute = true;
+                            funpackProcess.StartInfo.UseShellExecute = false;
                             funpackProcess.StartInfo.FileName = ".\\Funpack.exe";
                             funpackProcess.StartInfo.Arguments = $"-F .\\fits\\{Path.GetFileName(workFile)}";
                             funpackProcess.StartInfo.CreateNoWindow = true;
@@ -163,6 +178,9 @@ namespace FitsAnalyzer
                         unitsList.Add(new UnitMap(i, j));
                     files[i] = workFile;
                     i++;
+                    var progress = (int)(100 * i / openFileDialog.FileNames.Length);
+                    toolStripProgressBar.Value = progress;
+                    toolStripProgressLabel.Text = $"{progress} %";
                 } //foreach file
 
                 // Окрытие первого заголовка
@@ -172,6 +190,10 @@ namespace FitsAnalyzer
                 for (int j = 1; j <= hduNumber; j++)
                     toolStripNumberComboBox.Items.Add($"{j} / {hduNumber}");
                 toolStripNumberComboBox.SelectedIndex = crtUnitIndex;
+
+                toolStripProgressBar.Visible = false;
+                toolStripProgressLabel.Visible = false;
+                toolStripStatusLabel.Text = "Готово";
             }
         }
 
@@ -184,6 +206,7 @@ namespace FitsAnalyzer
         private void toolStripNumberComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             crtUnitIndex = toolStripNumberComboBox.SelectedIndex;
+            this.Text = $"{Application.ProductName} v.{Application.ProductVersion} - {Path.GetFileName(files[unitsList[crtUnitIndex].FileIndex])}";
             HDULoad();
         }
 
@@ -310,5 +333,46 @@ namespace FitsAnalyzer
                 component.Enabled = (hduNumber > 1);
         }
 
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (scale < Math.Pow(scaleStep, 3))
+            {
+                scale *= scaleStep;
+                Scale();
+            }
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (scale > Math.Pow(scaleStep, -3))
+            {
+                scale /= scaleStep;
+                Scale();
+            }
+        }
+
+        private void fitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scale = 1.0;
+            Scale();
+        }
+
+        private void Scale()
+        {
+            dataPictureBox.Height = (int)(dataPictureBox.Image.Height * scale);
+            dataPictureBox.Width = (int)(dataPictureBox.Image.Width * scale);
+            if (dataPictureBox.Width < splitContainer1.Panel1.Width)
+                dataPictureBox.Left = (int)((splitContainer1.Panel1.Width - dataPictureBox.Width) / 2);
+            if (dataPictureBox.Height < splitContainer1.Panel1.Height)
+                dataPictureBox.Top = (int)((splitContainer1.Panel1.Height - dataPictureBox.Height) / 2);
+            var offset = new Point(
+                    (int)((dataPictureBox.Width - splitContainer1.Panel1.Width) / 2),
+                    (int)((dataPictureBox.Height - splitContainer1.Panel1.Height) / 2));
+            if (splitContainer1.Panel1.VerticalScroll.Visible)
+                offset.X += SystemInformation.VerticalScrollBarWidth / 2;
+            if (splitContainer1.Panel1.HorizontalScroll.Visible)
+                offset.X += SystemInformation.HorizontalScrollBarHeight / 2;
+            splitContainer1.Panel1.AutoScrollPosition = offset;
+        }
     }
 }
