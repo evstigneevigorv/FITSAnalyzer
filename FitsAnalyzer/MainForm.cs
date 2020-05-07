@@ -97,8 +97,10 @@ namespace FitsAnalyzer
                 openFileDialog.RestoreDirectory = true;
                 openFileDialog.CheckFileExists = true;
 
-                if (openFileDialog.ShowDialog() != DialogResult.OK)
+                var openResult = openFileDialog.ShowDialog();
+                if (openResult != DialogResult.OK)
                 {
+                    if (openResult == DialogResult.Cancel) return;
                     MessageBox.Show(
                         $"Неправильно выбран(ы) файл(ы) \"{files}\"",
                         "Ошибка открытия файла(ов)",
