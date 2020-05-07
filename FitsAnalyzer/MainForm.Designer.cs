@@ -120,6 +120,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.saveToolStripMenuItem.Text = "Сохранить снимок";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -263,6 +264,7 @@
             this.toolStripSaveButton.Name = "toolStripSaveButton";
             this.toolStripSaveButton.Size = new System.Drawing.Size(23, 22);
             this.toolStripSaveButton.Text = "Сохранить снимок";
+            this.toolStripSaveButton.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 

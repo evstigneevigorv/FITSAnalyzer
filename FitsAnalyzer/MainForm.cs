@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms.VisualStyles;
 using nom.tam.fits;
+using System.Drawing.Imaging;
 
 namespace FitsAnalyzer
 {
@@ -373,6 +374,44 @@ namespace FitsAnalyzer
             if (splitContainer1.Panel1.HorizontalScroll.Visible)
                 offset.X += SystemInformation.HorizontalScrollBarHeight / 2;
             splitContainer1.Panel1.AutoScrollPosition = offset;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var saveFileDialog = new SaveFileDialog())
+            {
+                toolStripStatusLabel.Text = "Выбор файла";
+
+                // Вызов диалогового окна сохранения файла
+
+                saveFileDialog.Title = "Сохранить снимок";
+                // Возможные варианты начальной папки в диалоговом окне
+                // openFileDialog.InitialDirectory = "c:\\"; // Диск C:
+                // openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // Рабочий стол
+                // openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // Мои Документы
+                saveFileDialog.InitialDirectory = "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}"; // Мой компьютер
+                saveFileDialog.Filter = "Файлы *.png |*.png|Все файлы (*.*)|*.*";
+                saveFileDialog.FilterIndex = 1;
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.CheckFileExists = false;
+
+                var saveResult = saveFileDialog.ShowDialog();
+                if (saveResult != DialogResult.OK)
+                {
+                    toolStripStatusLabel.Text = "Выберите файл для сохранения";
+                    if (saveResult != DialogResult.Cancel)
+                        MessageBox.Show(
+                            $"Неправильно выбран(ы) файл(ы) \"{files}\"",
+                            "Ошибка сохранения снимка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    return;
+                }
+
+                dataPictureBox.Image.Save(saveFileDialog.FileName, ImageFormat.Png);
+
+                toolStripStatusLabel.Text = "Готово";
+            }
         }
     }
 }
