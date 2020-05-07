@@ -68,10 +68,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataPictureBox = new System.Windows.Forms.PictureBox();
             this.hduDataGridView = new System.Windows.Forms.DataGridView();
-            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.KeyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -298,6 +298,7 @@
             this.toolStripNumberComboBox.Name = "toolStripNumberComboBox";
             this.toolStripNumberComboBox.Size = new System.Drawing.Size(80, 25);
             this.toolStripNumberComboBox.ToolTipText = "Текущий снимок";
+            this.toolStripNumberComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripNumberComboBox_SelectedIndexChanged);
             // 
             // toolStripNextButton
             // 

@@ -17,11 +17,25 @@ using nom.tam.fits;
 namespace FitsAnalyzer
 {
     enum ControlsState { Off = 0, SingleOn = 1, MultipleOn = 2 }
+
+    struct UnitMap
+    {
+        public int FileIndex;
+        public int HDUIndex;
+
+        public UnitMap(int fileIndex, int hduIndex)
+        {
+            FileIndex = fileIndex;
+            HDUIndex = hduIndex;
+        }
+    }
+
     public partial class MainForm : Form
     {
         private FitsWrapper fits = new FitsWrapper();
-        private string filePath = string.Empty;
-        private int crtHDUIndex = 0;
+        private string[] files;
+        private List<UnitMap> unitsList;
+        private int crtUnitIndex = 0;
         private int hduNumber = 0;
         private List<ToolStripItem> singleSwitchableControls;
         private List<ToolStripItem> multipleSwitchableControls;
@@ -47,6 +61,28 @@ namespace FitsAnalyzer
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
+                // Создание рабочей директории
+
+                string crtDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                try
+                {
+                    if (!Directory.Exists("fits"))
+                    {
+                        // Try to create the directory.
+                        DirectoryInfo di = Directory.CreateDirectory("fits");
+                    }
+                }
+                catch (Exception excp)
+                {
+                    MessageBox.Show(
+                        $"Не удалось создать рабочую директорию \".\fits\":\n" +
+                        $"{excp.Message}",
+                        "Ошибка создания рабочей директории",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Вызов диалогового окна открытия файла
 
                 openFileDialog.Title = "Открыть FITS-файл";
@@ -57,93 +93,102 @@ namespace FitsAnalyzer
                 openFileDialog.InitialDirectory = "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}"; // Мой компьютер
                 openFileDialog.Filter = "FITS-файлы (*.fits)|*.fits|Все файлы (*.*)|*.*";
                 openFileDialog.FilterIndex = 1;
-                openFileDialog.Multiselect = false;
+                openFileDialog.Multiselect = true;
                 openFileDialog.RestoreDirectory = true;
                 openFileDialog.CheckFileExists = true;
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
                 {
                     MessageBox.Show(
-                        $"Неправильно выбран файл \"{filePath}\"",
-                        "Ошибка открытия файла",
+                        $"Неправильно выбран(ы) файл(ы) \"{files}\"",
+                        "Ошибка открытия файла(ов)",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
-                filePath = openFileDialog.FileName;
-                string crtDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string workFilePath = crtDir + "\\fits\\" + Path.GetFileName(filePath);
 
-                try
+                files = new string[openFileDialog.FileNames.Length];
+                unitsList = new List<UnitMap> { };
+                hduNumber = 0;
+                int i = 0;
+
+                foreach (string file in openFileDialog.FileNames)
                 {
-                    // Determine whether the directory exists.
-                    
-                    if (!Directory.Exists("fits"))
+                    string workFile = crtDir + "\\fits\\" + Path.GetFileName(file);
+                    try
                     {
-                        // Try to create the directory.
-                        DirectoryInfo di = Directory.CreateDirectory("fits");
+                        if (File.Exists(workFile)) File.Delete(workFile);
+                        File.Copy(file, workFile, true);
+                        using (Process funpackProcess = new Process())
+                        {
+                            funpackProcess.StartInfo.UseShellExecute = true;
+                            funpackProcess.StartInfo.FileName = ".\\Funpack.exe";
+                            funpackProcess.StartInfo.Arguments = $"-F .\\fits\\{Path.GetFileName(workFile)}";
+                            funpackProcess.StartInfo.CreateNoWindow = true;
+                            funpackProcess.Start();
+                            funpackProcess.WaitForExit();
+                        }
                     }
-                    // if (File.Exists(workFilePath)) File.Delete(workFilePath);
-                    File.Copy(filePath, workFilePath, true);
-                    using (Process myProcess = new Process())
+                    catch (Exception excp)
                     {
-                        myProcess.StartInfo.UseShellExecute = true;
-                        myProcess.StartInfo.FileName = ".\\Funpack.exe";
-                        myProcess.StartInfo.Arguments = $"-F .\\fits\\{Path.GetFileName(workFilePath)}";
-                        myProcess.StartInfo.CreateNoWindow = true;
-                        myProcess.Start();
-                        myProcess.WaitForExit();
-                        // This code assumes the process you are starting will terminate itself. 
-                        // Given that is is started without a window so you cannot terminate it 
-                        // on the desktop, it must terminate itself or you can do it programmatically
-                        // from this application using the Kill method.
+                        MessageBox.Show(
+                            $"Не удалось копировать рабочий файл \"{workFile}\" :\n" +
+                            $"{excp.Message}",
+                            "Ошибка создания рабочей копии файла",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
                     }
-                }
-                catch (Exception excp)
-                {
-                    MessageBox.Show("The process failed: {0}", excp.ToString());
-                }
 
-                // Определение количества заголовков в файле
-
-                try
-                {
-                    fits.OpenFile(workFilePath, out hduNumber);
-                }
-                catch (Exception excp)
-                {
-                    MessageBox.Show(
-                        $"Не удалось прочитать заголовки файла \"{workFilePath}\":\n" +
-                        $"{excp.Message}",
-                        "Ошибка открытия файла",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
-                }
+                    // Определение количества заголовков в файле
+                    int fileHDUNumber = 0;
+                    try
+                    {
+                        fits.OpenFile(workFile, out fileHDUNumber);
+                    }
+                    catch (Exception excp)
+                    {
+                        MessageBox.Show(
+                            $"Не удалось прочитать заголовки файла \"{workFile}\":\n" +
+                            $"{excp.Message}",
+                            "Ошибка открытия файла",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
+                    }
+                    hduNumber += fileHDUNumber;
+                    for (int j = 0; j < fileHDUNumber; j++)
+                        unitsList.Add(new UnitMap(i, j));
+                    files[i] = workFile;
+                    i++;
+                } //foreach file
 
                 // Окрытие первого заголовка
 
-                crtHDUIndex = 0;
-                HDULoad();
+                crtUnitIndex = 0;
+                toolStripNumberComboBox.Items.Clear();
+                for (int j = 1; j <= hduNumber; j++)
+                    toolStripNumberComboBox.Items.Add($"{j} / {hduNumber}");
+                toolStripNumberComboBox.SelectedIndex = crtUnitIndex;
             }
         }
 
         private void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (crtHDUIndex > 0)
-            {
-                crtHDUIndex--;
-                HDULoad();
-            }
+            if (toolStripNumberComboBox.SelectedIndex > 0)
+                toolStripNumberComboBox.SelectedIndex--;
+        }
+
+        private void toolStripNumberComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            crtUnitIndex = toolStripNumberComboBox.SelectedIndex;
+            HDULoad();
         }
 
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (crtHDUIndex < hduNumber - 1)
-            {
-                crtHDUIndex++;
-                HDULoad();
-            }
+            if (toolStripNumberComboBox.SelectedIndex < toolStripNumberComboBox.Items.Count - 1)
+                toolStripNumberComboBox.SelectedIndex++;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -157,12 +202,13 @@ namespace FitsAnalyzer
             var hasImage = false;
             try
             {
-                fits.ReadHeader(crtHDUIndex, out table, out hasImage);
+                fits.ReadHeader(files[unitsList[crtUnitIndex].FileIndex], unitsList[crtUnitIndex].HDUIndex, out table, out hasImage);
             }
             catch (Exception excp)
             {
                 MessageBox.Show(
-                    $"Не удалось открыть заголовок №{crtHDUIndex} файла \"{filePath}\":\n" +
+                    $"Не удалось открыть заголовок №{unitsList[crtUnitIndex].HDUIndex}" +
+                    $" файла \"{files[unitsList[crtUnitIndex].FileIndex]}\":\n" +
                     $"{excp.Message}",
                     "Ошибка открытия файла",
                     MessageBoxButtons.OK,
@@ -180,12 +226,13 @@ namespace FitsAnalyzer
                 BitPix bitpix;
                 try
                 {
-                    fits.ReadData(crtHDUIndex, out data, out bitpix);
+                    fits.ReadData(unitsList[crtUnitIndex].HDUIndex, out data, out bitpix);
                 }
                 catch (Exception excp)
                 {
                     MessageBox.Show(
-                        $"Не удалось открыть данные для HDU №{crtHDUIndex} файла \"{filePath}\":\n" +
+                        $"Не удалось открыть данные для HDU №{unitsList[crtUnitIndex].HDUIndex}" +
+                        $" файла \"{files[unitsList[crtUnitIndex].FileIndex]}\":\n" +
                         $"{excp.Message}",
                         "Ошибка открытия файла",
                         MessageBoxButtons.OK,
@@ -259,11 +306,7 @@ namespace FitsAnalyzer
                 component.Enabled = (hduNumber > 0);
             foreach (ToolStripItem component in multipleSwitchableControls)
                 component.Enabled = (hduNumber > 1);
-
-            toolStripNumberComboBox.Items.Clear();
-            for (int i = 1; i <= hduNumber; i++)
-                toolStripNumberComboBox.Items.Add($"{i} / {hduNumber}");
-            toolStripNumberComboBox.SelectedIndex = crtHDUIndex;
         }
+
     }
 }

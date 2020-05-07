@@ -183,12 +183,12 @@
   <data name="toolStripSettingsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEpSURBVDhPrZPLjYRADES5bQSTwIRCAIgzQSAC4gYiADIA
-        QpgwuCE+0h7w9OvBLTMfjbRaSxZNt6tcLprIxr7vPzy3bbuu6yo22bM1LzFN08UV3pZlKd0z6/te4jj2
-        OQwDJNlxdqP2gD1CwXVdS9u24t5/m6YJBKzZ44yaEwmSFKyAoigkTdPwniSJ5Hke3pUkjIM02LXgW1IL
-        xoMPwzIk2i4knUm7hzpqwXhj3UK6rpOqqk7FZVnSxSdr3Wc0PMHYeZ7FE+ihJkQAOSNZPyshx3H8JwLk
-        IMs6/2kEiBiXsf0I1kQM0kItfu6M0ScTCdfl75/x3UWii+3MaFbdy0XiWioJ7EhkTgtgjzMFg/FgDSVB
-        mntmmKQEX38mDZV0GBs+I6mGBdk+ougOrIBZAyM0eXUAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAElSURBVDhPrZPLbYVADEXZpYI0kFIoALGmCERB7EAUQAdA
+        Ca8MViA+UhY4cyZ4ZN5HT4piyZrBc21fX2Yia8dxfLDu+/61bZtYJ2YxDzbP86cD3tZ1Ld2a9X0vcRx7
+        H4aBItl5dgN7pv2aJtd1LW3byjRN303ThALsiXEG5lIESpqsCUVRSJqm4TtJEsnzPHxrkTAO1KiugHcO
+        lhyffAqWQdF2wemM2xjswJLjhXUb6bpOqqq6gMuypIt39hpnNDRB2GVZxBfQQ3UKkcgZzv6eCT6O4z8V
+        gA60rPKvRqAQ4zK2H8GKiEAKVPB9Z4S+iIi5Ln//jc8uEl1sZ0az7B4u0rOrzJw2gRhnmvzyPUDNrRki
+        aYG3j0lNKZ3Cht+Iq2CBtrco+gF7tFjrOp7TbQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="toolStripHelpButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -214,14 +214,5 @@
   </metadata>
   <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>353, 17</value>
-  </metadata>
-  <metadata name="KeyColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="CommentColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
   </metadata>
 </root>

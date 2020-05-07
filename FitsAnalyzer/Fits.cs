@@ -20,8 +20,9 @@ namespace FitsAnalyzer
             hduNum = fits.Size();
         }
 
-        public bool ReadHeader(int index, out List<string[]> table, out bool hasImage)
+        public bool ReadHeader(string file, int index, out List<string[]> table, out bool hasImage)
         {
+            fits = new Fits(file, FileAccess.Read);
             hdus = fits.Read();
 
             if (hdus == null) { table = null; hasImage = false; return false; }
