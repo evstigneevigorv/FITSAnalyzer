@@ -68,6 +68,11 @@ namespace FitsAnalyzer
             if (bitpix != BitPix.Unknown) data = (Array[])hdus[index].Kernel;
             else data = null;
         }
+
+        public void Free()
+        {
+            fits.Close();
+        }
     }
 
 }

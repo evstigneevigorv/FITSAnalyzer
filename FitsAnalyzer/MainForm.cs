@@ -75,14 +75,13 @@ namespace FitsAnalyzer
                 {
                     if (!Directory.Exists("fits"))
                     {
-                        // Try to create the directory.
                         DirectoryInfo di = Directory.CreateDirectory("fits");
                     }
                 }
                 catch (Exception excp)
                 {
                     MessageBox.Show(
-                        $"Не удалось создать рабочую директорию \".\fits\":\n" +
+                        $"Не удалось создать рабочую директорию \".\\fits\":\n" +
                         $"{excp.Message}",
                         "Ошибка создания рабочей директории",
                         MessageBoxButtons.OK,
@@ -411,6 +410,31 @@ namespace FitsAnalyzer
                 dataPictureBox.Image.Save(saveFileDialog.FileName, ImageFormat.Png);
 
                 toolStripStatusLabel.Text = "Готово";
+            }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            fits.Free();
+            // Удаление рабочей директории
+
+            string crtDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            try
+            {
+                if (Directory.Exists("fits"))
+                {
+                    Directory.Delete("fits", true);
+                }
+            }
+            catch (Exception excp)
+            {
+                MessageBox.Show(
+                    $"Не удалось удалить рабочую директорию \".\\fits\":\n" +
+                    $"{excp.Message}",
+                    "Ошибка удаления рабочей директории",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
             }
         }
     }
