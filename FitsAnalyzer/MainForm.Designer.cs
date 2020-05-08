@@ -416,7 +416,7 @@
             // dataPictureBox
             // 
             this.dataPictureBox.BackColor = System.Drawing.Color.Black;
-            this.dataPictureBox.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.dataPictureBox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.dataPictureBox.Location = new System.Drawing.Point(0, 0);
             this.dataPictureBox.Name = "dataPictureBox";
             this.dataPictureBox.Size = new System.Drawing.Size(590, 490);
