@@ -222,6 +222,7 @@
             this.calcToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.calcToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.calcToolStripMenuItem.Text = "Расчет зависимости";
+            this.calcToolStripMenuItem.Click += new System.EventHandler(this.calcToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -355,6 +356,7 @@
             this.toolStripCalcButton.Name = "toolStripCalcButton";
             this.toolStripCalcButton.Size = new System.Drawing.Size(23, 22);
             this.toolStripCalcButton.Text = "Настройки";
+            this.toolStripCalcButton.Click += new System.EventHandler(this.calcToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -374,7 +376,7 @@
             this.toolStripStatusLabel.AutoToolTip = true;
             this.toolStripStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(300, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(400, 17);
             this.toolStripStatusLabel.Text = "Выберите файл для анализа";
             this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -477,6 +479,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "MainForm";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FitsAnalyzer";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);

@@ -14,6 +14,7 @@ using System.Threading;
 using System.Windows.Forms.VisualStyles;
 using nom.tam.fits;
 using System.Drawing.Imaging;
+using System.Globalization;
 
 namespace FitsAnalyzer
 {
@@ -47,6 +48,7 @@ namespace FitsAnalyzer
         public MainForm()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             singleSwitchableControls = new List<ToolStripItem>
             {
                 saveToolStripMenuItem,
@@ -436,6 +438,59 @@ namespace FitsAnalyzer
                     MessageBoxIcon.Error);
                 return;
             }
+        }
+
+        private void calcToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = "Расчет диапазона амплитуд";
+            toolStripProgressBar.Value = 0;
+            toolStripProgressBar.Visible = true;
+            toolStripProgressLabel.Text = "0 %";
+            toolStripProgressLabel.Visible = true;
+
+            int i = 0;
+            var minAmpl = double.MaxValue;
+            var maxAmpl = double.MinValue;
+            var minDateTime = DateTime.MaxValue;
+            var maxDateTime = DateTime.MinValue;
+            foreach (string file in files)
+            {
+                double crtMinAmpl, crtMaxAmpl;
+                DateTime crtMinDateTime, crtMaxDateTime;
+                try
+                {
+                    fits.GetAmplitudeSpan(file, out crtMinAmpl, out crtMaxAmpl,
+                                          out crtMinDateTime, out crtMaxDateTime);
+                }
+                catch (Exception excp)
+                {
+                    MessageBox.Show(
+                        $"Не удалось прочитать заголовки файла \"{file}\":\n" +
+                        $"{excp.Message}",
+                        "Ошибка открытия файла",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                if (crtMinAmpl < minAmpl) minAmpl = crtMinAmpl;
+                if (crtMaxAmpl > maxAmpl) maxAmpl = crtMaxAmpl;
+                if (crtMinDateTime < minDateTime) minDateTime = crtMinDateTime;
+                if (crtMaxDateTime > maxDateTime) maxDateTime = crtMaxDateTime;
+
+                i++;
+                var progress = (int)(100 * i / files.Length);
+                toolStripProgressBar.Value = progress;
+                toolStripProgressLabel.Text = $"{progress} %";
+            }
+
+            toolStripProgressBar.Visible = false;
+            toolStripProgressLabel.Visible = false;
+            toolStripStatusLabel.Text = $"Готово";
+
+            var calcForm = new CalcForm(minAmpl, maxAmpl, minDateTime, maxDateTime);
+            calcForm.fits = this.fits;
+            calcForm.files = this.files;
+            calcForm.ShowDialog();
         }
     }
 }
